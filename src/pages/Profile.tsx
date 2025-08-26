@@ -7,6 +7,9 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
+import { useToast } from "@/hooks/use-toast";
+import { useBills } from "@/hooks/useBills";
+import { useNavigate } from "react-router-dom";
 import { User, Mail, Bell, Shield, Settings, CreditCard, Calendar, Target } from "lucide-react";
 
 export default function Profile() {
@@ -16,6 +19,9 @@ export default function Profile() {
     push: true,
     weekly: true
   });
+  const { toast } = useToast();
+  const { exportData } = useBills();
+  const navigate = useNavigate();
 
   // Mock user data
   const userData = {
@@ -29,8 +35,67 @@ export default function Profile() {
   };
 
   const handleSave = () => {
-    // Handle save functionality
-    console.log('Profile saved');
+    toast({
+      title: "Profile Saved",
+      description: "Your profile changes have been saved successfully.",
+    });
+  };
+
+  const handleChangePhoto = () => {
+    toast({
+      title: "Photo Upload",
+      description: "Connect Supabase to enable photo uploads and storage.",
+    });
+  };
+
+  const handleUpgradeToPro = () => {
+    toast({
+      title: "Upgrade to Pro",
+      description: "Connect Supabase to enable payment processing with Stripe.",
+    });
+  };
+
+  const handleViewCalendar = () => {
+    navigate('/calendar');
+  };
+
+  const handleContactSupport = () => {
+    toast({
+      title: "Contact Support",
+      description: "Connect Supabase to enable messaging functionality.",
+    });
+  };
+
+  const handleExportData = () => {
+    exportData();
+    toast({
+      title: "Data Exported",
+      description: "Your bills data has been downloaded as JSON.",
+    });
+  };
+
+  const handleChangePassword = () => {
+    toast({
+      title: "Change Password",
+      description: "Connect Supabase to enable authentication features.",
+    });
+  };
+
+  const handleTwoFactorAuth = () => {
+    toast({
+      title: "Two-Factor Authentication",
+      description: "Connect Supabase to enable security features.",
+    });
+  };
+
+  const handleDeleteAccount = () => {
+    if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+      toast({
+        title: "Delete Account",
+        description: "Connect Supabase to enable account management.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -69,7 +134,7 @@ export default function Profile() {
                 <div>
                   <h3 className="text-xl font-semibold">{userData.name}</h3>
                   <p className="text-muted-foreground">Member since {userData.joinDate}</p>
-                  <Button variant="outline" size="sm" className="mt-2">
+                  <Button variant="outline" size="sm" className="mt-2" onClick={handleChangePhoto}>
                     Change Photo
                   </Button>
                 </div>
@@ -205,17 +270,17 @@ export default function Profile() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="outline" className="w-full justify-start" onClick={handleChangePassword}>
                 <Settings className="h-4 w-4 mr-2" />
                 Change Password
               </Button>
               
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="outline" className="w-full justify-start" onClick={handleTwoFactorAuth}>
                 <Shield className="h-4 w-4 mr-2" />
                 Two-Factor Authentication
               </Button>
               
-              <Button variant="outline" className="w-full justify-start text-destructive hover:text-destructive">
+              <Button variant="outline" className="w-full justify-start text-destructive hover:text-destructive" onClick={handleDeleteAccount}>
                 <User className="h-4 w-4 mr-2" />
                 Delete Account
               </Button>
@@ -267,7 +332,7 @@ export default function Profile() {
                 </p>
               </div>
               
-              <Button className="w-full gradient-secondary text-white shadow-medium hover:shadow-glow transition-smooth">
+              <Button className="w-full gradient-secondary text-white shadow-medium hover:shadow-glow transition-smooth" onClick={handleUpgradeToPro}>
                 <CreditCard className="h-4 w-4 mr-2" />
                 Upgrade to Pro
               </Button>
@@ -280,17 +345,17 @@ export default function Profile() {
               <CardTitle>Quick Actions</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="outline" className="w-full justify-start" onClick={handleViewCalendar}>
                 <Calendar className="h-4 w-4 mr-2" />
                 View Calendar
               </Button>
               
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="outline" className="w-full justify-start" onClick={handleContactSupport}>
                 <Mail className="h-4 w-4 mr-2" />
                 Contact Support
               </Button>
               
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="outline" className="w-full justify-start" onClick={handleExportData}>
                 <Target className="h-4 w-4 mr-2" />
                 Export Data
               </Button>

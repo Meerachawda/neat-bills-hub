@@ -1,10 +1,20 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { useToast } from "@/hooks/use-toast";
 import { Home, LayoutDashboard, Calendar, Mail, User, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function Navigation() {
   const location = useLocation();
+  const { toast } = useToast();
+
+  const handleAddBill = () => {
+    toast({
+      title: "Add Bill",
+      description: "This would open a form to add a new bill. Connect Supabase to save data permanently.",
+    });
+  };
 
   const navItems = [
     { label: "Home", path: "/", icon: Home },
@@ -48,10 +58,14 @@ export function Navigation() {
               </Link>
             );
           })}
+          <ThemeToggle />
         </div>
 
         {/* Add Bill Button */}
-        <Button className="gradient-primary text-white shadow-medium hover:shadow-glow transition-smooth">
+        <Button 
+          className="gradient-primary text-white shadow-medium hover:shadow-glow transition-smooth"
+          onClick={handleAddBill}
+        >
           <PlusCircle className="h-4 w-4 mr-2" />
           Add Bill
         </Button>

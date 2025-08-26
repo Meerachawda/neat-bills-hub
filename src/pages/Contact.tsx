@@ -3,13 +3,32 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, MapPin, Phone, Send, MessageCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Mail, MapPin, Phone, Send, MessageCircle, HelpCircle } from "lucide-react";
 
 export default function Contact() {
+  const { toast } = useToast();
+
+  const handleSendMessage = () => {
+    toast({
+      title: "Message Sent",
+      description: "Connect Supabase to enable email sending functionality.",
+    });
+  };
+
+  const handleEmailUs = () => {
+    window.location.href = "mailto:meerachawda49255@gmail.com?subject=Bills Manager Support";
+  };
+
+  const handleViewHelp = () => {
+    toast({
+      title: "Help Center",
+      description: "Connect Supabase to create a comprehensive help center.",
+    });
+  };
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted');
+    handleSendMessage();
   };
 
   return (
@@ -205,14 +224,16 @@ export default function Contact() {
               <Button 
                 variant="outline" 
                 className="border-primary text-primary hover:bg-primary/5"
-                onClick={() => window.location.href = 'mailto:meerachawda49255@gmail.com'}
+                onClick={handleEmailUs}
               >
                 <Mail className="h-4 w-4 mr-2" />
                 Email Us Directly
               </Button>
               <Button 
                 className="gradient-secondary text-white shadow-medium hover:shadow-glow transition-smooth"
+                onClick={handleViewHelp}
               >
+                <HelpCircle className="h-4 w-4 mr-2" />
                 View Help Center
               </Button>
             </div>

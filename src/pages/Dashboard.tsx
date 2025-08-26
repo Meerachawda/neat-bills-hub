@@ -1,51 +1,29 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BillCard, Bill } from "@/components/BillCard";
+import { BillCard } from "@/components/BillCard";
+import { useBills } from "@/hooks/useBills";
+import { useToast } from "@/hooks/use-toast";
 import { PlusCircle, DollarSign, AlertTriangle, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function Dashboard() {
-  const [bills, setBills] = useState<Bill[]>([
-    {
-      id: '1',
-      name: 'Netflix Subscription',
-      amount: 15.99,
-      dueDate: '2024-01-15',
-      category: 'Streaming',
-      status: 'overdue',
-      notes: 'Annual plan renewal coming up'
-    },
-    {
-      id: '2',
-      name: 'Electricity Bill',
-      amount: 145.50,
-      dueDate: '2024-01-20',
-      category: 'Utilities',
-      status: 'due-soon',
-      notes: 'Higher usage this month due to heating'
-    },
-    {
-      id: '3',
-      name: 'Car Insurance',
-      amount: 89.99,
-      dueDate: '2024-01-28',
-      category: 'Insurance',
-      status: 'upcoming'
-    },
-    {
-      id: '4',
-      name: 'Spotify Premium',
-      amount: 9.99,
-      dueDate: '2024-02-05',
-      category: 'Streaming',
-      status: 'upcoming',
-      notes: 'Student discount expires next month'
-    }
-  ]);
+  const { bills, deleteBill } = useBills();
+  const { toast } = useToast();
 
   const handleDeleteBill = (id: string) => {
-    setBills(prev => prev.filter(bill => bill.id !== id));
+    deleteBill(id);
+    toast({
+      title: "Bill Deleted",
+      description: "The bill has been removed successfully.",
+    });
+  };
+
+  const handleAddBill = () => {
+    toast({
+      title: "Add Bill",
+      description: "This would open a form to add a new bill. Connect Supabase to save data permanently.",
+    });
   };
 
   // Categorize bills
@@ -119,7 +97,10 @@ export default function Dashboard() {
 
         <Card className="gradient-card shadow-soft border-0 animate-slide-up" style={{ animationDelay: '0.3s' }}>
           <CardContent className="flex items-center justify-center h-full">
-            <Button className="w-full gradient-primary text-white shadow-medium hover:shadow-glow transition-smooth">
+            <Button 
+              className="w-full gradient-primary text-white shadow-medium hover:shadow-glow transition-smooth"
+              onClick={handleAddBill}
+            >
               <PlusCircle className="h-4 w-4 mr-2" />
               Add New Bill
             </Button>
@@ -198,7 +179,10 @@ export default function Dashboard() {
           </div>
           <h3 className="text-xl font-semibold mb-2">No bills yet</h3>
           <p className="text-muted-foreground mb-4">Start by adding your first bill to get organized!</p>
-          <Button className="gradient-primary text-white shadow-medium hover:shadow-glow transition-smooth">
+          <Button 
+            className="gradient-primary text-white shadow-medium hover:shadow-glow transition-smooth"
+            onClick={handleAddBill}
+          >
             <PlusCircle className="h-4 w-4 mr-2" />
             Add Your First Bill
           </Button>
