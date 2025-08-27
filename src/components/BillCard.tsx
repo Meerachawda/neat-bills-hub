@@ -10,7 +10,7 @@ export interface Bill {
   id: string;
   name: string;
   amount: number;
-  dueDate: string;
+  due_date: string;
   category: string;
   status: 'overdue' | 'due-soon' | 'upcoming';
   notes?: string;
@@ -105,7 +105,7 @@ export function BillCard({ bill, onDelete }: BillCardProps) {
           {config.label}
         </Badge>
         <span className="text-xs text-muted-foreground">
-          {getDaysUntilDue(bill.dueDate)}
+          {getDaysUntilDue(bill.due_date)}
         </span>
       </div>
 
@@ -124,7 +124,7 @@ export function BillCard({ bill, onDelete }: BillCardProps) {
           
           <div className="flex items-center text-muted-foreground">
             <Calendar className="h-4 w-4 mr-1" />
-            <span className="text-sm">{formatDate(bill.dueDate)}</span>
+            <span className="text-sm">{formatDate(bill.due_date)}</span>
           </div>
         </div>
 
