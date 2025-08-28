@@ -38,7 +38,7 @@ export default function Auth() {
           email: formData.email,
           password: formData.password,
           options: {
-            emailRedirectTo: `${window.location.origin}/`,
+            emailRedirectTo: "http://localhost:3000/dashboard",
             data: {
               first_name: formData.firstName,
               last_name: formData.lastName
@@ -79,12 +79,12 @@ export default function Auth() {
 
   const handleGoogleAuth = async () => {
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/dashboard`
-        }
-      });
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: "http://localhost:3000/dashboard"
+          }
+        });
 
       if (error) throw error;
     } catch (error: any) {
